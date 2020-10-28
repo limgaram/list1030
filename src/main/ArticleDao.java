@@ -5,8 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ArticleDao {
-	private static ArrayList<Article> articles;
-	private static ArrayList<Comment> comments;
+	private ArrayList<Article> articles;
 	private int no = 4;
 
 	public ArticleDao() {
@@ -19,7 +18,9 @@ public class ArticleDao {
 		articles.add(a2);
 		articles.add(a3);
 
-		comments = new ArrayList<>();
+		articles.add(a1);
+		articles.add(a2);
+		articles.add(a3);
 	}
 
 	public void insertArticle(Article a) {
@@ -28,12 +29,6 @@ public class ArticleDao {
 		a.setRegDate(getCurrentDate());
 
 		articles.add(a);
-	}
-
-	public void insertComment(Comment a) {
-		a.setRegDate(getCurrentDate());
-		comments.add(a);
-
 	}
 
 	public void removeArticle(Article a) {
@@ -65,7 +60,7 @@ public class ArticleDao {
 	}
 
 	// Article 버전
-	public static Article getArticleById(int targetId) {
+	public Article getArticleById(int targetId) {
 		for (int i = 0; i < articles.size(); i++) {
 			int id = articles.get(i).getId();
 			if (id == targetId) {
@@ -78,10 +73,6 @@ public class ArticleDao {
 
 	public ArrayList<Article> getArticles() {
 		return articles;
-	}
-
-	public ArrayList<Comment> getComments() {
-		return comments;
 	}
 
 	public ArrayList<Article> getSearchedArticlesByBody(String keyword) {
