@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main {
-	
+
 	static ReplyDao replyDao = new ReplyDao();
 	static ArticleDao articleDao = new ArticleDao();
 	static MemberDao memberDao = new MemberDao();
-	
+
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
@@ -77,7 +77,7 @@ public class main {
 			if (cmd.equals("read")) {
 				System.out.println("상세보기할 게시물 선택 : ");
 				int targetId = sc.nextInt();
-				
+
 				Article target = articleDao.getArticleById(targetId);
 				if (target == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
@@ -101,7 +101,6 @@ public class main {
 							replyDao.insertReply(r);
 							System.out.println("댓글이 등록되었습니다.");
 							printArticle(target);
-				
 
 						} else if (readCmd == 2) {
 							System.out.println("[좋아요 기능]");
@@ -138,45 +137,46 @@ public class main {
 
 				printArticles(searchedArticles);
 			}
-			
-			if(cmd.equals("signup")) {
-				System.out.println("===회원 가입을 진행합니다.===");
+
+			if (cmd.equals("signup")) {
+				System.out.println("======== 회원가입을 진행합니다.========");
 				Member m = new Member();
-				System.out.println("아이디를 입력해주세요. :");
-				String id = sc.next(); 
-				m.setId(id);
- 				System.out.println("비밀번호를 입력해주세요. :");
- 				String password = sc.next();
- 				m.setPassword(password);
- 				System.out.println("닉네임을 입력해주세요. : ");
- 				String nickname = sc.next();
- 				m.setNickname(nickname);
- 				
- 				memberDao.insertMember(m);
- 				System.out.println("===회원 가입이 완료되었습니다.===");
-			}
-			
-			if(cmd.equals("signin")) {
-				System.out.println("아이디를 입력해주세요. :");
-				String mtargetId = sc.next(); 
-				System.out.println("비밀번호를 입력해주세요. :");
- 				String mtargetpassword = sc.next();
+
+				System.out.println("아이디를 입력해주세요 :");
+				String id = sc.next();
+				m.setLoginId(id);
+
+				System.out.println("비밀번호를 입력해주세요 :");
+				String pw = sc.next();
+				m.setLoginPw(pw);
 				
- 				Member Id = memberDao.getMemberById(mtargetId);
- 				Member Password= memberDao.getMemberBypassword(mtargetpassword);
- 				if(mtargetId.equals(Id)) {
- 					if(mtargetpassword.equals(Password)) {
- 						System.out.println(mtargetId + "님,");
- 						System.out.println("환영합니다.");
- 						SigininDao.insertSignin();
- 					}
- 				} else {
- 					System.out.println("로그인 실패");
- 				}
- 					
+				System.out.println("닉네임을 입력해주세요 :");
+				String nick = sc.next();
+				m.setNickname(nick);
+				
+				memberDao.insertMember(m);
+				System.out.println("======== 회원가입이 완료되었습니다.========");
 			}
-			
-			
+
+			if (cmd.equals("signin")) {
+				System.out.println("아이디를 입력해주세요. :");
+				String mtargetId = sc.next();
+				System.out.println("비밀번호를 입력해주세요. :");
+				String mtargetPw = sc.next();
+
+				if (mtargetId.equals(m.loginId()) {
+					if (mtargetPw.equals(m.loginPw()) {
+						System.out.println(mtargetId + "님,");
+						System.out.println("환영합니다.");
+						System.out.println("명령어를 입력해주세요 : " + mtargetId);
+					}
+				}
+				else {
+					System.out.println("로그인 실패");
+				}
+
+			}
+
 		}
 	}
 
@@ -201,6 +201,7 @@ public class main {
 			System.out.println("===================");
 		}
 	}
+
 	private static void printArticle(Article target) {
 		System.out.println("==== " + target.getId() + " ====");
 		System.out.println("번호 : " + target.getId());
@@ -209,7 +210,7 @@ public class main {
 		System.out.println("등록날짜 : " + target.getRegDate());
 		System.out.println("조회수 : " + target.getHit());
 		System.out.println("================댓글==============");
-		
+
 		ArrayList<Reply> replies = replyDao.getRepliesByParentId(target.getId());
 		printReplies(replies);
 	}
